@@ -1,4 +1,4 @@
-# Manifesto for KODANSHA tech WordPress DevOps (α)
+# KODANSHA TECH WordPress DevOps マニフェスト (α)
 
 ## 1. WordPress アプリケーションの構成・設定管理
 
@@ -239,7 +239,7 @@ WordPress コアや、主要なテーマ、およびプラグインの言語フ�
 
 環境ごとに異なる値の設定、および API アクセスキーなどの秘密情報の設定は環境変数を使って管理する。
 
-Bedrock を利用する場合は、デフォルトで [PHP dotenv](https://github.com/vlucas/phpdotenv) を使って環境変数を設定することが可能。
+Bedrock を利用する場合は、デフォルトで [PHP dotenv](https://github.com/vlucas/phpdotenv) を使って環境変数を設定することが可能。また、`config/environments/` の設定によってコンフィグを `development` / `staging` / 本番とわけて構成することができるので活用すること。
 
 PHP dotenv で利用する `.env` ファイルには機密情報が含まれるため**絶対にバージョン管理には含めないこと**。
 
@@ -273,11 +273,12 @@ FROM kodansha/bedrock-bedrock:1.2 AS base
 
 ENV WEB_ROOT /var/www/html
 ENV APACHE_DOCUMENT_ROOT ${WEB_ROOT}/web
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+RUN composer self-update
 
 ################################################################################
 FROM base AS production
-
-ENV COMPOSER_ALLOW_SUPERUSER 1
 
 WORKDIR ${WEB_ROOT}
 
@@ -374,7 +375,7 @@ volumes:
 
 ## WIP
 
-- WordPress はヘッドレス CMS とし、フロントは分離して構成にすること
+- WordPress はヘッドレス CMS とし、フロントは分離した構成にすること
   - REST API の JSON レスポンスは CDN でキャッシュする
 - 管理画面はサーバーレベルで分離した構成にすること
 - 開発の初期段階から CI / CD を導入すること
