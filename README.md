@@ -1,4 +1,4 @@
-# KODANSHA TECH WordPress DevOps マニフェスト (α)
+# KODANSHAtech WordPress DevOps マニフェスト (α)
 
 ## 1. WordPress アプリケーションの構成・設定管理
 
